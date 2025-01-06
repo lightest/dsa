@@ -1,5 +1,5 @@
 # DSA Praccitce
 
 ## GO
-## Implemented:
+### Implemented:
 - linear search
