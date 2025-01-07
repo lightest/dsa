@@ -1,4 +1,4 @@
-# DSA Praccitce
+# DSA Practice
 
 ## GO
 ### Implemented:
