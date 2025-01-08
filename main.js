@@ -144,6 +144,26 @@ function mergeSortedArrays(arri, arrj)
     return out;
 }
 
+function longestSubstringLen(str = "")
+{
+    const lut = {};
+    let lastSubstringStart = 0;
+    let maxLen = 0;
+
+    for (let i = 0; i < str.length; i++)
+    {
+        if (lut[ str[ i ] ] !== undefined)
+        {
+            // Next symbol as the substring start.
+            lastSubstringStart = Math.max(lut[ str[ i ] ] + 1, lastSubstringStart);
+        }
+        lut[ str[ i ] ] = i;
+        maxLen = Math.max(maxLen, i - lastSubstringStart + 1);
+    }
+
+    return maxLen;
+}
+
 function runAll()
 {
     let t = 0;
@@ -197,6 +217,17 @@ function runAll()
     input = [ [ 0, 1, 2, 3, 7, 8, 9, 12, 13 ], [ 4, 5, 6, 10, 11, 14, 15 ] ];
     console.log("in:", input);
     console.log("out:", mergeSortedArrays(...input));
+
+    console.log("\nLongest substring:");
+    input = "abcdeabcabc";
+    console.log("in:", input);
+    console.log("out:", longestSubstringLen(input));
+    input = "abcdecbcabc";
+    console.log("in:", input);
+    console.log("out:", longestSubstringLen(input));
+    input = "abcdedacabc";
+    console.log("in:", input);
+    console.log("out:", longestSubstringLen(input));
 }
 
 // TODO: trees next.
