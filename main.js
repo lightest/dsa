@@ -155,6 +155,7 @@ function longestSubstringLen(str = "")
         if (lut[ str[ i ] ] !== undefined)
         {
             // Next symbol as the substring start.
+            // We know for a fact there are no unique substrings earlier now.
             lastSubstringStart = Math.max(lut[ str[ i ] ] + 1, lastSubstringStart);
         }
         lut[ str[ i ] ] = i;
@@ -162,6 +163,96 @@ function longestSubstringLen(str = "")
     }
 
     return maxLen;
+}
+
+class ListNode
+{
+    constructor(v)
+    {
+        this.value = v;
+        this.next = null;
+    }
+
+    get val()
+    {
+        return this.value;
+    }
+
+    get v()
+    {
+        return this.value;
+    }
+}
+
+function setupSinglyLinkedList(n)
+{
+    if (n === undefined || n <= 0)
+    {
+        n = Math.round(Math.random() * 9) + 1;
+    }
+
+    console.log("Setting up singly linked list for n:", n);
+
+    const head = new ListNode(0);
+    let prevNode = head;
+
+    for (let i = 0; i < n; i++)
+    {
+        prevNode.next = new ListNode(i + 1);
+        prevNode = prevNode.next;
+    }
+
+    console.log(head)
+
+    return head;
+}
+
+function reverseSinglyLinkedList(head)
+{
+    let current = head;
+    let prev = null;
+
+    while (current.next)
+    {
+        const next = current.next;
+        current.next = prev;
+        prev = current;
+        current = next;
+    }
+
+    // Reverse final.
+    current.next = prev;
+
+    return current;
+}
+
+function reverseSinglyLinkedListRecoursive(node, prev)
+{
+    const next = node.next;
+    node.next = prev
+
+    if (!next)
+    {
+        return node;
+    }
+
+    return reverseSinglyLinkedListRecoursive(next, node);
+}
+
+function singlyLinkedListHasCycle(head)
+{
+
+}
+
+function printSinglyLinkedList(head)
+{
+    let current = head;
+    while (current.next)
+    {
+        console.log(current.value);
+        current = current.next;
+    }
+    console.log(current.value);
 }
 
 function runAll()
@@ -228,6 +319,18 @@ function runAll()
     input = "abcdedacabc";
     console.log("in:", input);
     console.log("out:", longestSubstringLen(input));
+
+    console.log("\nLinked lists:");
+    let head = setupSinglyLinkedList();
+    console.log("List before reversal:");
+    printSinglyLinkedList(head)
+    let reversed = reverseSinglyLinkedList(head);
+    console.log("List after reversal:");
+    printSinglyLinkedList(reversed);
+    console.log("Reversing list recoursively:");
+    reversed = reverseSinglyLinkedListRecoursive(reversed);
+    printSinglyLinkedList(reversed);
+
 }
 
 // TODO: trees next.
