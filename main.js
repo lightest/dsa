@@ -91,11 +91,66 @@ function nfibLutIterative(n = 1)
     fibLut[ n ] = out;
 }
 
+function twoSum(nums = [], target = 0)
+{
+    const lut = {};
+    for (let i = 0; i < nums.length; i++)
+    {
+        if (lut[ nums[ i ] ] !== undefined)
+        {
+            return [ lut[ nums[ i ] ], i ];
+        }
+
+        lut[ target - nums[ i ] ] = i;
+    }
+}
+
+function mergeSortedArrays(arri, arrj)
+{
+    let i = 0, j = 0, k = 0;
+    const out = new Array(arri.length + arrj.length);
+
+    while (i < arri.length && j < arrj.length)
+    {
+        if (arri[ i ] < arrj[ j ])
+        {
+            out[ k ] = arri[ i ];
+            i++;
+        }
+        else
+        {
+            out[ k ] = arrj[ j ];
+            j++;
+        }
+
+        k++;
+    }
+
+    // Now handle what's left if anything.
+    while (i < arri.length)
+    {
+        out[ k ] = arri[ i ];
+        k++;
+        i++;
+    }
+
+    while (j < arrj.length)
+    {
+        out[ k ] = arrj[ j ];
+        k++;
+        j++;
+    }
+
+    return out;
+}
+
 function runAll()
 {
     let t = 0;
+    let tTotal = 0;
     console.log("String reversal:");
     let input = [ "adsf123", "uuaaii", "lohpidr", "123456789" ];
+    let target = 0;
 
     for (let i = 0; i < input.length; i++)
     {
@@ -113,21 +168,35 @@ function runAll()
     console.log("\nFib n:");
     input = [ 0, 1, 2, 5, 7, 9, 10, 11, 12, 13, 15, 18, 20, 22, 24, 26, 28, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40 ];
 
+    tTotal = performance.now();
     for (let i = 0; i < input.length; i++)
     {
         t = performance.now();
         console.log("in:", input[ i ], "out:", nfib(input[ i ]));
         console.log("nfib for n", input[ i ], "took:", performance.now() - t, "ms.");
     }
+    console.log("total time:", performance.now() - tTotal, "ms");
 
     console.log("\nFib n (with luts):");
-
+    tTotal = performance.now();
     for (let i = 0; i < input.length; i++)
     {
         t = performance.now();
         console.log("in:", input[ i ], "out:", nfibLut(input[ i ]));
         console.log("nfibLut for n", input[ i ], "took:", performance.now() - t, "ms.");
     }
+    console.log("total time:", performance.now() - t);
+
+    console.log("\nTwo sum:")
+    input = [ 2, 7, 11, 15, 13, 9, 1, 0, 5, 16, 42, 69, 420 ]
+    target = 7;
+    console.log("in:", input, target);
+    console.log("out:", twoSum(input, target));
+
+    console.log("\nMerge sorted arrays:");
+    input = [ [ 0, 1, 2, 3, 7, 8, 9, 12, 13 ], [ 4, 5, 6, 10, 11, 14, 15 ] ];
+    console.log("in:", input);
+    console.log("out:", mergeSortedArrays(...input));
 }
 
 // TODO: trees next.
