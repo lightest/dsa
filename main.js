@@ -255,6 +255,69 @@ function printSinglyLinkedList(head)
     console.log(current.value);
 }
 
+class TreeNode
+{
+    constructor(value)
+    {
+        this.value = value;
+        this.left = null;
+        this.right = null;
+    }
+}
+
+function setupBinaryTree(root, n = 0, child = 0)
+{
+    if (n <= 0)
+    {
+        return;
+    }
+
+    if (!root)
+    {
+        root = new TreeNode(0);
+    }
+
+    root.left = new TreeNode(child + 1);
+    root.right = new TreeNode(child + 2);
+
+    n--;
+    child++;
+    setupBinaryTree(root.left, n, child);
+    setupBinaryTree(root.right, n, child);
+
+    return root;
+}
+
+function invertBinaryTree(root)
+{
+    if (!root)
+    {
+        return root;
+    }
+
+    const t = root.left;
+    root.left = root.right;
+    root.right = t;
+
+    invertBinaryTree(root.left);
+    invertBinaryTree(root.right);
+
+    return root;
+}
+
+function printBinaryTree(root)
+{
+    if (!root)
+    {
+        return;
+    }
+
+    console.log(root.value);
+
+    printBinaryTree(root.left);
+    printBinaryTree(root.right);
+}
+
 function runAll()
 {
     let t = 0;
@@ -330,6 +393,15 @@ function runAll()
     console.log("Reversing list recoursively:");
     reversed = reverseSinglyLinkedListRecoursive(reversed);
     printSinglyLinkedList(reversed);
+
+    let root = setupBinaryTree(null, 2);
+    console.log("Binary tree before reversal:");
+    console.log(root);
+    printBinaryTree(root);
+    invertBinaryTree(root);
+    console.log("Binary tree after reversal");
+    console.log(root);
+    printBinaryTree(root);
 
 }
 
