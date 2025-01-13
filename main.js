@@ -288,6 +288,27 @@ function setupBinaryTree(root, n = 0, child = 0)
     return root;
 }
 
+function setupRandomBST(root, n = 0)
+{
+    if (n <= 0)
+    {
+        return;
+    }
+
+    if (!root)
+    {
+        root = new TreeNode(Math.round(n * .5));
+    }
+
+    while (n >= 0)
+    {
+        insertIntoBST(root, n);
+        n--;
+    }
+
+    return root;
+}
+
 function invertBinaryTree(root)
 {
     if (!root)
@@ -305,17 +326,97 @@ function invertBinaryTree(root)
     return root;
 }
 
-function printBinaryTree(root)
+function inOrderBSTTraverse(root)
+{
+    const results = [];
+
+    function traverse(node)
+    {
+        if (!node)
+        {
+            return;
+        }
+
+        traverse(node.left);
+        results.push(node.value);
+        traverse(node.right);
+    }
+
+    traverse(root);
+
+    return results;
+}
+
+function levelOrderTraversal(root, level, res = [])
 {
     if (!root)
     {
         return;
     }
 
-    console.log(root.value);
+    if (res[ level ] === undefined)
+    {
+        res[ level ] = [];
+    }
 
-    printBinaryTree(root.left);
-    printBinaryTree(root.right);
+    res[ level ].push(root.value);
+
+    levelOrderTraversal(root.left, level + 1, res);
+    levelOrderTraversal(root.right, level + 1, res);
+
+    return res;
+}
+
+function insertIntoBST(root, value)
+{
+    if (!root)
+    {
+        return new TreeNode(value);
+    }
+
+    // Ensure it's unique.
+    if (value === root.value)
+    {
+        return;
+    }
+
+    if (value < root.value)
+    {
+        root.left = insertIntoBST(root.left, value);
+    }
+    else
+    {
+        root.right = insertIntoBST(root.right, value);
+    }
+
+    return root;
+}
+
+function printBinaryTree(root)
+{
+    function traverseChildren(root)
+    {
+        if (!root)
+        {
+            return;
+        }
+
+        if (root.left)
+        {
+            console.log(root.left.value);
+        }
+
+        if (root.right)
+        {
+            console.log(root.right.value);
+        }
+
+        traverseChildren(root.left);
+        traverseChildren(root.right);
+    }
+
+    console.log(root.value);
+    traverseChildren(root);
 }
 
 function runAll()
@@ -402,9 +503,13 @@ function runAll()
     console.log("Binary tree after reversal");
     console.log(root);
     printBinaryTree(root);
+    root = setupRandomBST(null, 5);
+    console.log("In-order traverse:");
+    console.log(root);
+    console.log(inOrderBSTTraverse(root));
+    console.log("Level-order traverse:");
+    console.log(levelOrderTraversal(root, 0));
 
 }
-
-// TODO: trees next.
 
 runAll();

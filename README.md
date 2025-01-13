@@ -14,6 +14,10 @@
 - reverseSinglyLinkedListRecoursive
 - invertBinaryTree
 - printBinaryTree
+- setupRandomBST
+- inOrderBSTTraverse
+- levelOrderTraversal
+- insertIntoBST
 
 ## GO
 ### Implemented:
